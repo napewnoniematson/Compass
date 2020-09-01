@@ -1,9 +1,17 @@
 package com.napewnoniematson.compass.view
 
 import android.content.Context
-import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
-import com.napewnoniematson.compass.R
+import android.util.Log
 
-class CompassView(context: Context, attrs: AttributeSet) : View(context, attrs) {}
+class CompassView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+
+    private val TAG: String? = CompassView::class.simpleName
+
+    fun moveNeedle(angle: Float) {
+        Log.d(TAG, "Needle moved by $angle degrees")
+    }
+
+
+}

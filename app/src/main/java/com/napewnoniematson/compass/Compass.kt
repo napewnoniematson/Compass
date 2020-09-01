@@ -6,6 +6,8 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 class Compass(context: Context) : SensorEventListener {
 
@@ -17,6 +19,9 @@ class Compass(context: Context) : SensorEventListener {
 
     private val rotationMatrix = FloatArray(9)
     private val orientationAngles = FloatArray(3)
+
+    private val angle: MutableLiveData<Float> = MutableLiveData<Float>()
+
 
     init {
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -46,8 +51,6 @@ class Compass(context: Context) : SensorEventListener {
         sensorManager.unregisterListener(this)
     }
 
-
-
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         println("Accuracy has changed. Temporary do nothing")
     }
@@ -59,10 +62,7 @@ class Compass(context: Context) : SensorEventListener {
             System.arraycopy(event.values, 0, magnetometerReading, 0, magnetometerReading.size)
         }
         updateOrientationAngles()
-        Log.d(TAG, "Orientation angles")
-        for (angle: Float in orientationAngles) {
-            Log.d(TAG, angle.toString())
-        }
+        angle.value = orientationAngles[0]
     }
 
     fun updateOrientationAngles() {
@@ -77,9 +77,10 @@ class Compass(context: Context) : SensorEventListener {
         // "mRotationMatrix" now has up-to-date information.
 
         SensorManager.getOrientation(rotationMatrix, orientationAngles)
-
         // "mOrientationAngles" now has up-to-date information.
     }
+
+    fun getAngle() = angle as LiveData<Float>
 
 
 }
