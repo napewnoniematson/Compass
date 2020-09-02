@@ -9,6 +9,7 @@ import com.napewnoniematson.compass.Compass
 import com.napewnoniematson.compass.R
 import com.napewnoniematson.compass.viewmodel.CompassViewModel
 import com.napewnoniematson.compass.viewmodel.ViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,7 +26,8 @@ class MainActivity : AppCompatActivity() {
             .get(CompassViewModel::class.java)
         // Observe the sensor vale
         compassViewModel.getAngle().observe(this, Observer {
-            Log.d(TAG, "Needle angle = $it")
+            compassView.moveNeedle(it)
+
         })
     }
 

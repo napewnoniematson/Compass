@@ -8,6 +8,7 @@ import android.hardware.SensorManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlin.random.Random
 
 class Compass(context: Context) : SensorEventListener {
 
@@ -62,7 +63,8 @@ class Compass(context: Context) : SensorEventListener {
             System.arraycopy(event.values, 0, magnetometerReading, 0, magnetometerReading.size)
         }
         updateOrientationAngles()
-        angle.value = orientationAngles[0]
+//        angle.value = orientationAngles[0]
+        angle.value = Random.nextFloat() * 300
     }
 
     fun updateOrientationAngles() {
