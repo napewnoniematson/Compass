@@ -11,11 +11,16 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 
-public class GeoCoordinateButton extends AppCompatButton implements View.OnClickListener {
+import com.napewnoniematson.compass.model.GeoPoint;
+
+public class GeoCoordinateButton extends AppCompatButton {
 
     public static final String TAG = GeoCoordinateButton.class.getSimpleName();
 
-    private GeoCoordinateDialog geoDialog;
+    public GeoCoordinateDialog geoDialog;
+//    private GeoPoint geoPoint = new GeoPoint();
+    public Float coordinate = 0f;
+    public String geoCoordinateName;
 
     public GeoCoordinateButton(Context context) {
         super(context);
@@ -28,23 +33,23 @@ public class GeoCoordinateButton extends AppCompatButton implements View.OnClick
     }
 
     private void init() {
-        setOnClickListener(this);
-        geoDialog = new GeoCoordinateDialog(getContext(), this.getText().toString());
+//        setOnClickListener(this);
+        this.geoCoordinateName = this.getText().toString();
+        geoDialog = new GeoCoordinateDialog(getContext(), this.geoCoordinateName);
     }
 
-    @Override
-    public void onClick(View v) {
-        geoDialog.dialog.show();
-        Log.d(TAG, this.getText().toString() + ": " + geoDialog.coordinate);
-    }
+//    @Override
+//    public void onClick(View v) {
+//        geoDialog.dialog.show();
+//        Log.d(TAG, this.getText().toString() + ": " + geoDialog.coordinate);
+//    }
 
 
-    private class GeoCoordinateDialog extends AlertDialog {
+    public class GeoCoordinateDialog extends AlertDialog {
 
         public final String TAG = GeoCoordinateDialog.class.getSimpleName();
 
-        private AlertDialog dialog;
-        private Float coordinate;
+        public AlertDialog dialog;
 
         public GeoCoordinateDialog(Context context, String geoCoordinateName) {
             super(context);
@@ -58,8 +63,10 @@ public class GeoCoordinateButton extends AppCompatButton implements View.OnClick
             );
             builder.setView(editText);
             builder.setPositiveButton("OK", (dialog, id) -> {
-                if (!editText.getText().toString().equals("")) {
+                String value = editText.getText().toString();
+                if (!value.equals("")) {
                     coordinate = Float.valueOf(editText.getText().toString());
+//                    geoPoint.addCoordinate(geoCoordinateName, Float.parseFloat(value));
                 }
                 Log.d(TAG, "Pressed OK");
             });
