@@ -1,17 +1,13 @@
-package com.napewnoniematson.compass.view;
+package com.napewnoniematson.compass.view.widget;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
-
-import com.napewnoniematson.compass.model.GeoPoint;
 
 public class GeoCoordinateButton extends AppCompatButton {
 

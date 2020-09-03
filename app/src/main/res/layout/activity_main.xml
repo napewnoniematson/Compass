@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    tools:context=".view.activity.MainActivity">
 
 
-    <com.napewnoniematson.compass.view.CompassView
+    <com.napewnoniematson.compass.view.widget.compass.CompassView
         android:id="@+id/compassView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/compassView">
 
-        <com.napewnoniematson.compass.view.GeoCoordinateButton
+        <com.napewnoniematson.compass.view.widget.GeoCoordinateButton
             android:id="@+id/latitudeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             android:text="Latitude"
             android:onClick="test"/>
 
-        <com.napewnoniematson.compass.view.GeoCoordinateButton
+        <com.napewnoniematson.compass.view.widget.GeoCoordinateButton
             android:id="@+id/longitudeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

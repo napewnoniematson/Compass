@@ -1,4 +1,4 @@
-package com.napewnoniematson.compass.view
+package com.napewnoniematson.compass.view.activity
 
 import android.hardware.GeomagneticField
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.napewnoniematson.compass.Compass
 import com.napewnoniematson.compass.R
 import com.napewnoniematson.compass.model.GeoPoint
+import com.napewnoniematson.compass.view.widget.GeoCoordinateButton
 import com.napewnoniematson.compass.viewmodel.CompassViewModel
 import com.napewnoniematson.compass.viewmodel.GeoPointViewModel
 import com.napewnoniematson.compass.viewmodel.ViewModelFactory
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         val geoPointViewModel = GeoPointViewModel(geoPoint)
         // Observe the sensor vale
         compassViewModel.getAngle().observe(this, Observer {
-            compassView.moveNeedle(it)
+            compassView.update(it, 0f)
 
         })
         geoPointViewModel.getLocation().observe(this, Observer {
