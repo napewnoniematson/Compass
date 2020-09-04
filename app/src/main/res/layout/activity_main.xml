@@ -25,21 +25,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/compassView">
 
-        <com.napewnoniematson.compass.view.widget.GeoCoordinateButton
+        <com.napewnoniematson.compass.GeoCoordinateButton
             android:id="@+id/latitudeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Latitude"
-            android:onClick="test"/>
+            android:text="Latitude"/>
 
-        <com.napewnoniematson.compass.view.widget.GeoCoordinateButton
+        <com.napewnoniematson.compass.GeoCoordinateButton
             android:id="@+id/longitudeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Longitude"
-            android:onClick="test"/>
+            android:text="Longitude" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

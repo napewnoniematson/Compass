@@ -1,4 +1,4 @@
-package com.napewnoniematson.compass.view.widget;
+package com.napewnoniematson.compass;
 
 import android.content.Context;
 import android.text.InputType;
@@ -66,9 +66,7 @@ public class GeoCoordinateButton extends AppCompatButton {
                 }
                 Log.d(TAG, "Pressed OK");
             });
-            builder.setNegativeButton("CANCEL", (dialog, id) -> {
-                Log.d(TAG, "Pressed Cancel");
-            });
+            builder.setNegativeButton("CANCEL", (dialog, id) -> Log.d(TAG, "Pressed Cancel"));
             dialog = builder.create();
         }
     }

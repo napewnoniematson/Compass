@@ -1,4 +1,4 @@
-package com.napewnoniematson.compass.model
+package com.napewnoniematson.compass
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
