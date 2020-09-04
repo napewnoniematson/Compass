@@ -1,6 +1,6 @@
 package com.napewnoniematson.compass.logic.reader
 
-interface SensorReader {
+interface Reader {
     fun start()
     fun stop()
 }

@@ -1,4 +1,4 @@
-package com.napewnoniematson.compass.logic
+package com.napewnoniematson.compass
 
 interface Compass {
     fun start()

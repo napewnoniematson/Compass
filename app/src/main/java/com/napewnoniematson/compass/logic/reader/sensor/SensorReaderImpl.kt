@@ -1,4 +1,4 @@
-package com.napewnoniematson.compass.logic.reader
+package com.napewnoniematson.compass.logic.reader.sensor
 
 import android.content.Context
 import android.hardware.Sensor
@@ -8,13 +8,14 @@ import android.hardware.SensorManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.napewnoniematson.compass.logic.reader.Reader
 import com.napewnoniematson.compass.model.compass.Needle
+import com.napewnoniematson.compass.view.widget.compass.NeedleView
 
-class SensorReaderImpl(context: Context) : SensorEventListener,
-    SensorReader,
-    NeedleReader {
+class SensorReaderImpl(context: Context) : SensorEventListener, Reader, NeedleReader {
 
     private val TAG: String? = SensorReaderImpl::class.simpleName
+    private val ON_ACCURACY_CHANGED_LOG = "Accuracy changed"
 
     private var sensorManager: SensorManager =
         context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -29,27 +30,19 @@ class SensorReaderImpl(context: Context) : SensorEventListener,
     private val orientationAngles = FloatArray(3)
 
     private var lastUpdateTime: Long = 0
+
     private val needle: Needle = Needle()
     private val needleLD: MutableLiveData<Needle> = MutableLiveData<Needle>()
-
 
     override fun start() {
         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also { accelerometer ->
             sensorManager.registerListener(
-                this,
-                accelerometer,
-                SensorManager.SENSOR_DELAY_NORMAL
-//                ,
-//                SensorManager.SENSOR_DELAY_UI
+                this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL
             )
         }
         sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)?.also { magneticField ->
             sensorManager.registerListener(
-                this,
-                magneticField,
-                SensorManager.SENSOR_DELAY_NORMAL
-//                ,
-//                SensorManager.SENSOR_DELAY_UI
+                this, magneticField, SensorManager.SENSOR_DELAY_NORMAL
             )
         }
     }
@@ -59,38 +52,52 @@ class SensorReaderImpl(context: Context) : SensorEventListener,
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        println("Accuracy has changed. Temporary do nothing")
+        Log.d(TAG, ON_ACCURACY_CHANGED_LOG)
     }
 
     override fun onSensorChanged(event: SensorEvent) {
         Log.d(TAG, event.sensor.name)
-        if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
-            System.arraycopy(event.values, 0, accelerometerReading, 0, accelerometerReading.size)
-            isAccelerometerRead = true
-        } else if (event.sensor.type == Sensor.TYPE_MAGNETIC_FIELD) {
-            System.arraycopy(event.values, 0, magnetometerReading, 0, magnetometerReading.size)
-            isMagnetometerRead = true
-        }
-        if (isAccelerometerRead && isMagnetometerRead && System.currentTimeMillis() - lastUpdateTime > 100) {
-            updateOrientationAngles()
-            lastUpdateTime = System.currentTimeMillis()
+        when (event.sensor.type) {
+            Sensor.TYPE_ACCELEROMETER -> {
+                System.arraycopy(
+                    event.values, 0, accelerometerReading, 0, accelerometerReading.size
+                )
+                isAccelerometerRead = true
+            }
+            Sensor.TYPE_MAGNETIC_FIELD -> {
+                System.arraycopy(
+                    event.values, 0, magnetometerReading, 0, magnetometerReading.size
+                )
+                isMagnetometerRead = true
+            }
 
-            needle.angle = Math.toDegrees(orientationAngles[0].toDouble()).toFloat()
-//            needle.angle =
-//                (Math.toDegrees(orientationAngles[0].toDouble() + 360).toFloat() % 360).roundToInt()
-//                    .toFloat()
-            needleLD.value = needle
         }
+
+        if (areSensorRead() && isWaitingFinished()) {
+            updateOrientationAngles()
+            needle.angle = getAzimuth()
+            needleLD.value = needle
+            lastUpdateTime = System.currentTimeMillis()
+        }
+
     }
 
+    private fun areSensorRead() = isAccelerometerRead && isMagnetometerRead
+
+    private fun isWaitingFinished() =
+        System.currentTimeMillis() - lastUpdateTime > NeedleView.ANIMATION_DURATION_TIME
+
     private fun updateOrientationAngles() {
-        SensorManager.getRotationMatrix(rotationMatrix,
+        SensorManager.getRotationMatrix(
+            rotationMatrix,
             null,
             accelerometerReading,
             magnetometerReading
         )
         SensorManager.getOrientation(rotationMatrix, orientationAngles)
     }
+
+    private fun getAzimuth() = Math.toDegrees(orientationAngles[0].toDouble()).toFloat()
 
     override fun getNeedle() = needleLD as LiveData<Needle>
 }

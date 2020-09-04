@@ -3,7 +3,6 @@ package com.napewnoniematson.compass.view.widget.compass
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
-import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import com.napewnoniematson.compass.R
 
@@ -19,8 +18,6 @@ class DestinationPointView(context: Context, attrs: AttributeSet) :
     }
 
     override fun update(angle: Float) {
-        Log.d(TAG, "Temporary: DestinationPoint updated")
+        Log.d(TAG, "DestinationPoint updated: $angle")
     }
-
-
 }
