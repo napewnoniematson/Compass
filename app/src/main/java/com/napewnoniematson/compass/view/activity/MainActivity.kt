@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     private val TAG: String? = MainActivity::class.simpleName
 
     private lateinit var compass: Compass
-//    private lateinit var geoPoint: GeoPoint
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

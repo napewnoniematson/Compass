@@ -1,4 +1,4 @@
-package com.napewnoniematson.compass.logic
+package com.napewnoniematson.compass.logic.reader
 
 import android.content.Context
 import android.hardware.Sensor
@@ -9,10 +9,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.napewnoniematson.compass.model.compass.Needle
-import kotlin.math.roundToInt
-import kotlin.random.Random
 
-class SensorReaderImpl(context: Context) : SensorEventListener, SensorReader, NeedleReader {
+class SensorReaderImpl(context: Context) : SensorEventListener,
+    SensorReader,
+    NeedleReader {
 
     private val TAG: String? = SensorReaderImpl::class.simpleName
 
