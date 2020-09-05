@@ -29,14 +29,14 @@ class NeedleView(context: Context, attrs: AttributeSet) : AppCompatImageView(con
         Log.d(TAG, "Updated NeedleView | Angle = $angle")
         if (isNewAngle(angle))
             needleImageView.startAnimation(rotateAnimation(angle))
-            this.angle = -angle
+            this.angle = angle
     }
 
     private fun isNewAngle(angle: Float) = !this.angle.equals(angle)
 
     private fun rotateAnimation(angle: Float) : RotateAnimation {
         val rotate = RotateAnimation(
-            this.angle, -angle,
+            this.angle, angle,
             Animation.RELATIVE_TO_SELF, 0.5f,
             Animation.RELATIVE_TO_SELF, 0.5f
         )
