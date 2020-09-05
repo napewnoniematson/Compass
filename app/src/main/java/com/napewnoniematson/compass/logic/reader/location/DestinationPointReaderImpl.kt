@@ -25,18 +25,25 @@ class DestinationPointReaderImpl(context: Context) : DestinationPointReader, Vie
         (v as GeoCoordinateButton).geoDialog.dialog.show()
         when (v.geoCoordinateName) {
             LATITUDE -> {
-                destinationPoint.latitude = v.coordinate
-                isLatitudeUpdated = true
+                if (isLatitudeInRange(v.coordinate)) {
+                    destinationPoint.latitude = v.coordinate
+                    isLatitudeUpdated = true
+                }
             }
             LONGITUDE -> {
-                destinationPoint.longitude = v.coordinate
-                isLongitudeUpdated = true
+                if (isLongitudeInRange(v.coordinate)) {
+                    destinationPoint.longitude = v.coordinate
+                    isLongitudeUpdated = true
+                }
             }
         }
 
         if (areCoordinatesUpdated())
             destinationPointLD.value = destinationPoint
     }
+
+    private fun isLatitudeInRange(latitude: Float) = -90f <= latitude && latitude <= 90f
+    private fun isLongitudeInRange(latitude: Float) = -180f <= latitude && latitude <= 180f
 
     private fun areCoordinatesUpdated() = isLatitudeUpdated && isLongitudeUpdated
 
