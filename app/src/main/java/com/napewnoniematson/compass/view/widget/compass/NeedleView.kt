@@ -28,7 +28,7 @@ class NeedleView(context: Context, attrs: AttributeSet) : AppCompatImageView(con
     override fun update(angle: Float) {
         Log.d(TAG, "Updated NeedleView | Angle = $angle")
         if (isNewAngle(angle))
-            needleImageView.startAnimation(rotateAnimation(angle))
+            this.startAnimation(rotateAnimation(angle))
             this.angle = angle
     }
 
