@@ -1,17 +1,20 @@
 package com.napewnoniematson.compass.logic.reader.location
 
-import android.app.Application
 import android.content.Context
-import android.view.View
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.napewnoniematson.compass.R
-import com.napewnoniematson.compass.view.widget.GeoCoordinateButton
 import com.napewnoniematson.compass.model.geo.GeoPoint
 
-class DestinationPointReaderImpl(private val context: Context) : DestinationPointReader,
-    View.OnClickListener {
+
+interface PositiveDialogButtonHandler {
+    fun onClick(coordinateName: String, coordinateValue: Float)
+}
+
+class DestinationPointReaderImpl(private val context: Context) : DestinationPointReader, PositiveDialogButtonHandler{
+
 
     private val TAG: String? = DestinationPointReaderImpl::class.simpleName
 
@@ -24,20 +27,20 @@ class DestinationPointReaderImpl(private val context: Context) : DestinationPoin
     private val destinationPoint = GeoPoint()
     private val destinationPointLD = MutableLiveData<GeoPoint>()
 
-    override fun onClick(v: View?) {
-        (v as GeoCoordinateButton).geoDialog.dialog.show()
-        when (v.geoCoordinateName) {
+    override fun onClick(coordinateName: String,  coordinateValue: Float) {
+        Log.d(TAG, "CoordinateName: $coordinateName | CoordinateValue $coordinateValue")
+        when (coordinateName) {
             LATITUDE -> {
-                if (isLatitudeInRange(v.coordinate)) {
-                    destinationPoint.latitude = v.coordinate
+                if (isLatitudeInRange(coordinateValue)) {
+                    destinationPoint.latitude = coordinateValue
                     isLatitudeUpdated = true
                 } else {
                     showLatitudeNotInRangeToast()
                 }
             }
             LONGITUDE -> {
-                if (isLongitudeInRange(v.coordinate)) {
-                    destinationPoint.longitude = v.coordinate
+                if (isLongitudeInRange(coordinateValue)) {
+                    destinationPoint.longitude = coordinateValue
                     isLongitudeUpdated = true
                 } else {
                     showLongitudeNotInRangeToast()

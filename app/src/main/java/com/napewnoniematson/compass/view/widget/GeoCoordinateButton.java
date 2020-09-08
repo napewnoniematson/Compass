@@ -6,8 +6,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
+
+import com.napewnoniematson.compass.logic.reader.location.PositiveDialogButtonHandler;
 
 public class GeoCoordinateButton extends AppCompatButton {
 
@@ -30,6 +33,9 @@ public class GeoCoordinateButton extends AppCompatButton {
     private void init() {
         geoCoordinateName = this.getText().toString();
         geoDialog = new GeoCoordinateDialog(getContext(), geoCoordinateName);
+        this.setOnClickListener(v -> {
+            geoDialog.dialog.show();
+        });
     }
 
     public class GeoCoordinateDialog extends AlertDialog {
@@ -43,6 +49,7 @@ public class GeoCoordinateButton extends AppCompatButton {
         public final String TAG = GeoCoordinateDialog.class.getSimpleName();
 
         public AlertDialog dialog;
+        public PositiveDialogButtonHandler positiveDialogButtonHandler;
 
         public GeoCoordinateDialog(Context context, String geoCoordinateName) {
             super(context);
@@ -59,6 +66,7 @@ public class GeoCoordinateButton extends AppCompatButton {
             dialog = builder.create();
         }
 
+
         private EditText getCoordinateEditText(Context context) {
             EditText editText = new EditText(context);
             editText.setInputType(
@@ -73,6 +81,7 @@ public class GeoCoordinateButton extends AppCompatButton {
             String value = input.getText().toString();
             if (!value.isEmpty())
                 coordinate = Float.valueOf(input.getText().toString());
+                positiveDialogButtonHandler.onClick(geoCoordinateName, coordinate);
             Log.d(TAG, POSITIVE_BUTTON_LOG);
         }
 

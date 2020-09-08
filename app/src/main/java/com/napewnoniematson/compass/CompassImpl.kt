@@ -7,22 +7,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.napewnoniematson.compass.logic.DirectionFinder
 import com.napewnoniematson.compass.logic.reader.*
-import com.napewnoniematson.compass.logic.reader.location.DestinationPointReader
-import com.napewnoniematson.compass.logic.reader.location.DestinationPointReaderImpl
-import com.napewnoniematson.compass.logic.reader.location.UserLocationReader
-import com.napewnoniematson.compass.logic.reader.location.UserLocationReaderImpl
+import com.napewnoniematson.compass.logic.reader.location.*
 import com.napewnoniematson.compass.logic.reader.sensor.NeedleReader
 import com.napewnoniematson.compass.logic.reader.sensor.SensorReaderImpl
 import com.napewnoniematson.compass.model.compass.NeedleRepository
 import com.napewnoniematson.compass.model.geo.GeoPoint
 import com.napewnoniematson.compass.model.geo.GeoPointRepository
-import com.napewnoniematson.compass.view.DestinationPointListenerProvider
+import com.napewnoniematson.compass.view.PositiveDialogButtonHandlerProvider
 import com.napewnoniematson.compass.view.activity.MainActivity
 import com.napewnoniematson.compass.viewmodel.GeoPointViewModel
 import com.napewnoniematson.compass.viewmodel.NeedleViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class CompassImpl(context: Context) : Compass, DestinationPointListenerProvider {
+class CompassImpl(context: Context) : Compass, PositiveDialogButtonHandlerProvider {
 
     private val TAG: String? = CompassImpl::class.simpleName
 
@@ -76,35 +73,37 @@ class CompassImpl(context: Context) : Compass, DestinationPointListenerProvider 
 
     private fun observeUserLocation(context: Context) {
         geoPointViewModel.getUserLocation().observe(context as AppCompatActivity, Observer {
-            if (areBothGeoPointUpdated()) {
-                updateDestinationPointView(context)
-            }
             userLocation.latitude = it.latitude
             userLocation.longitude = it.longitude
             isUserLocationUpdated = true
+            if (areBothGeoPointUpdated()) {
+                updateDestinationPointView(context)
+            }
             Log.d(TAG, "User location updated")
         })
     }
 
     private fun observeDestinationPoint(context: Context) {
         geoPointViewModel.getDestinationPoint().observe(context as AppCompatActivity, Observer {
-            if (areBothGeoPointUpdated()) {
-                updateDestinationPointView(context)
-            }
             destinationPoint.latitude = it.latitude
             destinationPoint.longitude = it.longitude
             isDestinationPointUpdated = true
+            if (areBothGeoPointUpdated()) {
+                updateDestinationPointView(context)
+            }
         })
     }
 
     private fun areBothGeoPointUpdated() = isDestinationPointUpdated && isUserLocationUpdated
 
     private fun updateDestinationPointView(context: Context) {
+        Log.d(TAG, "userLocation ${userLocation.latitude} | ${userLocation.longitude}")
+        Log.d(TAG, "destinationPoint ${destinationPoint.latitude} | ${destinationPoint.longitude}")
         (context as MainActivity).compassView.updateDestinationPoint(
             DirectionFinder.findDirectionAngle(userLocation, destinationPoint)
         )
     }
 
-    override fun getDestinationPointOnClickListener() =
-        destinationPointReader as View.OnClickListener
+    override fun getPositiveDialogButtonHandler() =
+        destinationPointReader as PositiveDialogButtonHandler
 }
