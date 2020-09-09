@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.appcompat.widget.AppCompatImageView
 import com.napewnoniematson.compass.R
@@ -42,6 +43,7 @@ class NeedleView(context: Context, attrs: AttributeSet) : AppCompatImageView(con
             Animation.RELATIVE_TO_SELF, 0.5f
         )
         rotate.duration = ANIMATION_DURATION_TIME
+        rotate.interpolator = LinearInterpolator()
         rotate.fillAfter = true
         return rotate
     }

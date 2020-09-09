@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -48,6 +49,7 @@ class DestinationPointView(context: Context, attrs: AttributeSet) :
             Animation.RELATIVE_TO_PARENT, 0.5f
         )
         rotate.duration = ANIMATION_DURATION_TIME
+        rotate.interpolator = LinearInterpolator()
         rotate.fillAfter = true
         return rotate
     }
