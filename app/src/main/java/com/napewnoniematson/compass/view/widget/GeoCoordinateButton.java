@@ -5,11 +5,13 @@ import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.napewnoniematson.compass.R;
 import com.napewnoniematson.compass.logic.reader.location.PositiveDialogButtonHandler;
 
 public class GeoCoordinateButton extends AppCompatButton {
@@ -79,14 +81,23 @@ public class GeoCoordinateButton extends AppCompatButton {
 
         private void onPositiveButtonClicked(EditText input) {
             String value = input.getText().toString();
-            if (!value.isEmpty())
+            if (!value.isEmpty()) {
                 coordinate = Float.valueOf(input.getText().toString());
                 positiveDialogButtonHandler.onClick(geoCoordinateName, coordinate);
+            } else {
+                showEmptyCoordinateToast();
+                input.setText(String.valueOf(coordinate));
+            }
             Log.d(TAG, POSITIVE_BUTTON_LOG);
         }
 
         private void onNegativeButtonClicked() {
             Log.d(TAG, NEGATIVE_BUTTON_LOG);
+        }
+
+        private void showEmptyCoordinateToast() {
+            String message = getContext().getString(R.string.empty_coordinate);
+            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
         }
     }
 }

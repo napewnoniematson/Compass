@@ -4,4 +4,5 @@
     <string name="longitude">Longitude</string>
     <string name="latitude_not_in_range">Latitude range is from -90 to 90</string>
     <string name="longitude_not_in_range">Longitude range is from -180 to 180</string>
+    <string name="empty_coordinate">Coordinate field cannot be empty</string>
 </resources>
