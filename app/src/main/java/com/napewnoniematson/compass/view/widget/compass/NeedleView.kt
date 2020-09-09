@@ -19,6 +19,7 @@ class NeedleView(context: Context, attrs: AttributeSet) : AppCompatImageView(con
     private val ANIMATION_DURATION_TIME: Long = 50
 
     private var angle: Float = 0f
+    private var tmpAngle = 0f
 
     init {
         setImageResource(R.drawable.needle)
@@ -26,15 +27,16 @@ class NeedleView(context: Context, attrs: AttributeSet) : AppCompatImageView(con
 
     override fun update(angle: Float) {
         Log.d(TAG, "Updated NeedleView | Angle = $angle")
-        var a = angle
-        if (a < 0)
-            a += 360
-        if (isNewAngle(a) && !(this.angle - a > 345 || this.angle - a < -345))
-            this.startAnimation(rotateAnimation(a))
-            this.angle = a
+        tmpAngle = if (angle < 0) angle+360 else angle
+        if (isNewAngle(tmpAngle) && !(isChangingTroughTrueNorth(tmpAngle)))
+            this.startAnimation(rotateAnimation(tmpAngle))
+            this.angle = tmpAngle
     }
 
     private fun isNewAngle(angle: Float) = !this.angle.equals(angle)
+
+    private fun isChangingTroughTrueNorth(angle: Float) =
+        this.angle - angle > 345 || this.angle - angle < -345
 
     private fun rotateAnimation(angle: Float) : RotateAnimation {
         val rotate = RotateAnimation(

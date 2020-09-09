@@ -22,6 +22,7 @@ class DestinationPointView(context: Context, attrs: AttributeSet) :
     private val ANIMATION_DURATION_TIME: Long = 50
 
     private var angle = 0f
+    private var tmpAngle = 0f
 
     init {
         setImageResource(R.drawable.destination)
@@ -29,20 +30,20 @@ class DestinationPointView(context: Context, attrs: AttributeSet) :
     }
 
     override fun update(angle: Float) {
-        var a = angle
-        if (a >= 360)
-            a -= 360
-
-        if (isNewAngle(angle) && !(this.angle - a > 345 || this.angle - a < -345))
-            this.startAnimation(rotateAnimation(a))
-            if (isInvisible)
-                visibility = View.VISIBLE
-            this.angle = a
+        tmpAngle = if (angle >= 360) angle-360 else angle
+        if (isNewAngle(angle) && !(isChangingTroughTrueNorth(tmpAngle)))
+            this.startAnimation(rotateAnimation(tmpAngle))
+        if (isInvisible)
+            visibility = View.VISIBLE
+        this.angle = tmpAngle
     }
 
     private fun isNewAngle(angle: Float) = !this.angle.equals(angle)
 
-    private fun rotateAnimation(angle: Float) : RotateAnimation {
+    private fun isChangingTroughTrueNorth(angle: Float) =
+        this.angle - angle > 345 || this.angle - angle < -345
+
+    private fun rotateAnimation(angle: Float): RotateAnimation {
         val rotate = RotateAnimation(
             this.angle, angle,
             Animation.RELATIVE_TO_SELF, 0.5f,
