@@ -49,11 +49,6 @@ class DestinationPointView(context: Context, attrs: AttributeSet) :
         )
         rotate.duration = ANIMATION_DURATION_TIME
         rotate.fillAfter = true
-//        Log.d(TAG, "Pivot x: $pivotX | y: $pivotY")
-
-//        val px = (parent as ConstraintLayout).pivotX
-//        val py = (parent as ConstraintLayout).pivotY
-//        Log.d(TAG, "Pivot parent x: $px | y: $py")
         return rotate
     }
 }
