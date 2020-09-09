@@ -18,8 +18,7 @@ class DestinationPointView(context: Context, attrs: AttributeSet) :
     private var angle = 0f
 
     init {
-//        setImageResource(R.drawable.needle_compass)
-        setImageResource(R.color.colorPrimaryDark)
+        setImageResource(R.drawable.destination)
 //        visibility = View.INVISIBLE
     }
 

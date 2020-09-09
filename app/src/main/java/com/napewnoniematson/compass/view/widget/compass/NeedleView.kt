@@ -22,7 +22,7 @@ class NeedleView(context: Context, attrs: AttributeSet) : AppCompatImageView(con
     private var angle: Float = 0f
 
     init {
-        setImageResource(R.drawable.needle_compass)
+        setImageResource(R.drawable.needle)
     }
 
     override fun update(angle: Float) {

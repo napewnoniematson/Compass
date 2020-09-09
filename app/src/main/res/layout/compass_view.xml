@@ -4,14 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_compass"
+    android:background="@drawable/plate"
     android:gravity="center">
 
 
     <com.napewnoniematson.compass.view.widget.compass.DestinationPointView
         android:id="@+id/destinationImageView"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
