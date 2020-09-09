@@ -13,11 +13,9 @@ import kotlinx.android.synthetic.main.compass_view.view.*
 class NeedleView(context: Context, attrs: AttributeSet) : AppCompatImageView(context, attrs),
     CompassElement {
 
-    companion object {
-        const val ANIMATION_DURATION_TIME: Long = 100
-    }
-
     private val TAG: String? = NeedleView::class.simpleName
+
+    private val ANIMATION_DURATION_TIME: Long = 50
 
     private var angle: Float = 0f
 
@@ -27,9 +25,12 @@ class NeedleView(context: Context, attrs: AttributeSet) : AppCompatImageView(con
 
     override fun update(angle: Float) {
         Log.d(TAG, "Updated NeedleView | Angle = $angle")
-        if (isNewAngle(angle))
-            this.startAnimation(rotateAnimation(angle))
-            this.angle = angle
+        var a = angle
+        if (a < 0)
+            a += 360
+        if (isNewAngle(a) && !(this.angle - a > 345 || this.angle - a < -345))
+            this.startAnimation(rotateAnimation(a))
+            this.angle = a
     }
 
     private fun isNewAngle(angle: Float) = !this.angle.equals(angle)

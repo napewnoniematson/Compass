@@ -15,6 +15,7 @@ import com.napewnoniematson.compass.view.widget.compass.NeedleView
 class SensorReaderImpl(context: Context) : SensorEventListener, Reader, NeedleReader {
 
     private val TAG: String? = SensorReaderImpl::class.simpleName
+    private val SENSOR_READ_DELAY: Long = 100
     private val ON_ACCURACY_CHANGED_LOG = "Accuracy changed"
 
     private var sensorManager: SensorManager =
@@ -85,7 +86,7 @@ class SensorReaderImpl(context: Context) : SensorEventListener, Reader, NeedleRe
     private fun areSensorRead() = isAccelerometerRead && isMagnetometerRead
 
     private fun isWaitingFinished() =
-        System.currentTimeMillis() - lastUpdateTime > NeedleView.ANIMATION_DURATION_TIME
+        System.currentTimeMillis() - lastUpdateTime > SENSOR_READ_DELAY
 
     private fun updateOrientationAngles() {
         SensorManager.getRotationMatrix(

@@ -41,6 +41,8 @@ class CompassImpl(context: Context) : Compass, PositiveDialogButtonHandlerProvid
         )
     )
 
+    private var needleAngle: Float = 0f
+
     init {
         observeNeedle(context)
         observeGeoPoints(context)
@@ -58,7 +60,10 @@ class CompassImpl(context: Context) : Compass, PositiveDialogButtonHandlerProvid
 
     private fun observeNeedle(context: Context) {
         needleViewModel.getNeedle().observe(context as AppCompatActivity, Observer {
-            updateNeedleView(context, it.angle)
+            needleAngle = it.angle
+            updateNeedleView(context, needleAngle)
+            if (areBothGeoPointUpdated())
+                updateDestinationPointView(context)
         })
     }
 
@@ -99,9 +104,9 @@ class CompassImpl(context: Context) : Compass, PositiveDialogButtonHandlerProvid
     private fun updateDestinationPointView(context: Context) {
         Log.d(TAG, "userLocation ${userLocation.latitude} | ${userLocation.longitude}")
         Log.d(TAG, "destinationPoint ${destinationPoint.latitude} | ${destinationPoint.longitude}")
-        (context as MainActivity).compassView.updateDestinationPoint(
-            DirectionFinder.findDirectionAngle(userLocation, destinationPoint)
-        )
+        val destinationAngle = DirectionFinder.findDirectionAngle(userLocation, destinationPoint)
+        Log.d(TAG, "destinationAngle = $destinationAngle")
+        (context as MainActivity).compassView.updateDestinationPoint(destinationAngle + needleAngle)
     }
 
     override fun getPositiveDialogButtonHandler() =
